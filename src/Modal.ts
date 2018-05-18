@@ -27,12 +27,12 @@ export class ModalFooter {
 @Component({
     selector: "modal",
     template: `
-<div class="modal" 
+<div class="modal"
      tabindex="-1"
      role="dialog"
      #modalRoot
      (keydown.esc)="closeOnEscape ? close() : 0"
-     [ngClass]="{ in: isOpened, fade: isOpened }"
+     [ngClass]="{ in: isOpened, fade: isOpened, show: isOpened }"
      [ngStyle]="{ display: isOpened ? 'block' : 'none' }"
      (click)="closeOnOutsideClick ? close() : 0">
     <div [class]="'modal-dialog ' + modalClass" (click)="preventClosing($event)">
@@ -83,7 +83,7 @@ export class Modal {
     public submitButtonLabel: string;
 
     @Input()
-    public backdrop:boolen = true;
+    public backdrop: boolean = true;
 
     // -------------------------------------------------------------------------
     // Outputs
@@ -138,7 +138,7 @@ export class Modal {
     open(...args: any[]) {
         if (this.isOpened)
             return;
-        
+
         this.isOpened = true;
         this.onOpen.emit(args);
         document.body.appendChild(this.backdropElement);
@@ -168,6 +168,7 @@ export class Modal {
         this.backdropElement = document.createElement("div");
         this.backdropElement.classList.add("fade");
         this.backdropElement.classList.add("in");
+        this.backdropElement.classList.add("show");
         if(this.backdrop) {
             this.backdropElement.classList.add("modal-backdrop");
         }
